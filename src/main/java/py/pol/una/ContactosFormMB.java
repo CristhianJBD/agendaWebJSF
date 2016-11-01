@@ -7,4 +7,28 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class ContactosFormMB {
 
+	private Contacto contacto = new Contacto();
+	
+	
+
+
+	public void agregarContacto(){
+		
+	}
+	
+	public void limpiar(){
+		
+	}
+	
+	
+	
+	public Contacto getContacto() {
+		return contacto;
+	}
+
+
+	public void setContacto(Contacto contacto) {
+		this.contacto = contacto;
+	}
+
 }

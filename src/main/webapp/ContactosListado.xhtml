@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<title>Simple CRUD</title>
+</head>
+
+<body>
+	<p:dataTable id="listaContactos"
+		value="#{contactosListadoMB.listaContactos}" var="contacto" rows="10"
+		paginator="true"
+		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="10,50,100"
+		currentPageReportTemplate="Cantidad de Contactos: {totalRecords} &nbsp;&nbsp;&nbsp"
+		rowkey="#{contacto.fechaCreacion}" resizableColumns="true"
+		draggableColumns="true"
+		emptyMessage="Todavia no tiene ningun Contacto">
+
+		<p:column headerText="Nombre">
+			<p:outputLabel value="#{contacto.nombre}" />
+		</p:column>
+		<p:column headerText="Apellido">
+			<p:outputLabel value="#{contacto.apellido}" />
+		</p:column>
+		<p:column headerText="Alias">
+			<p:outputLabel value="#{contacto.alias}" />
+		</p:column>
+		<p:column headerText="Email">
+			<p:outputLabel value="#{contacto.email}" />
+		</p:column>
+		<p:column headerText="Direccion">
+			<p:outputLabel value="#{contacto.direccion}" />
+		</p:column>
+		<p:column headerText="Telefono">
+			<p:outputLabel value="#{contacto.telefono}" />
+		</p:column>
+		<p:column headerText="Acciones">
+			<p:commandButton value="editar" action="#{contactosListadoMB.editarContacto(contacto)}" />
+			<p:commandButton value="delete" action="#{contactosListadoMB.eliminarContacto(contacto)}" />
+			<p:commandButton value="ver" action="#{contactosListadoMB.verContacto(contacto)}" />
+		</p:column>
+		
+
+
+
+
+	</p:dataTable>
+</body>
+</html>
+
+
+

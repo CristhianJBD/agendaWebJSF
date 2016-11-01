@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<title></title>
+</head>
+
+<body>
+<p:outputLabel value="Agregar Contactos"/>  
+	<p:panelGrid columns="2">
+
+				<p:outputLabel value="Nombre"/>  
+				<p:inputText value="#{contactosFormMB.contacto.nombre}" />
+
+				<p:outputLabel value="Apellido"/>  
+				<p:inputText value="#{contactosFormMB.contacto.apellido}" />
+	
+				<p:outputLabel value="Alias"/> 
+				<p:inputText value="#{contactosFormMB.contacto.alias}" />
+		
+				<p:outputLabel value="Email"/> 
+				<p:inputText value="#{contactosFormMB.contacto.email}" />
+			
+				<p:outputLabel value="Direccion"/> 
+				<p:inputText value="#{contactosFormMB.contacto.direccion}" />
+		
+				<p:outputLabel value="Telefono"/> 
+				<p:inputText value="#{contactosFormMB.contacto.telefono}" />
+		
+			<p>
+				<p:commandButton value="agregar" action="#{contactosFormMB.agregarContacto()}" />
+				<p:commandButton value="limpiar" action="#{contactosFormMB.limpiar()}" />
+			</p>
+
+	</p:panelGrid>
+
+</body>
+</html>
