@@ -11,7 +11,7 @@ version="3.0">
 		<param-value>Development</param-value>
 	</context-param>
 	<welcome-file-list>
-		<welcome-file>home.xhtml</welcome-file>
+		<welcome-file>ContactosListado.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<!-- JSF mapping -->
