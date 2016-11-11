@@ -5,11 +5,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<title>Simple CRUD</title>
+<title>PWF-JSF</title>
 </h:head>
 
 <h:body>
-
 
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true"/>
@@ -66,7 +65,7 @@
                <f:facet name="input"><p:inputText value="#{contacto.direccion}" /></f:facet>
            </p:cellEditor>
 		</p:column>
-		<p:column headerText="Telefono">
+		<p:column headerText="Telefono" style="width:90px">
 			<p:cellEditor>
                <f:facet name="output"><h:outputText value="#{contacto.telefono}" /></f:facet>
                <f:facet name="input"><p:inputText value="#{contacto.telefono}" required="true" label="Teléfono"
@@ -94,12 +93,18 @@
 	        	<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 	        	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 	    	</p:confirmDialog>
-	    </p:column >
-	    <p:column  style="width:20px">
+	   </p:column >
+	   <p:column  style="width:20px">
            <p:rowEditor />
        </p:column>
-
+       <p:column  style="width:20px">
+       		<p:commandButton id="buttonView" icon="ui-icon-zoomin"
+				update=":formdialog:dialogoDetalle" actionListener="#{listaController.setSelec(contacto)}" onclick="PF('dlg2').show()">
+			</p:commandButton>
+ 		</p:column>
 	</p:dataTable>		
+	
+
 	<p:separator style="background-color:white;border-color:white;height:15px" />
 </h:form>
 	
@@ -113,6 +118,42 @@
 		<p:commandButton action="ContactosFormulario" actionListener="#{listaController.initForm()}" value="Agregar Contacto" />
 
 	</h:form>
+	
+	<h:form id="formdialog">
+		<p:dialog header="Datos del Contacto" width="400" widgetVar="dlg2"
+			modal="true" height="300" resizable="false" >
+			
+			<p:outputPanel id="dialogoDetalle" style="text-align:center;">
+				<p:panelGrid columns="2"					
+					columnClasses="label,value">
+					
+					<h:outputText value="Nombre: "  />
+					<h:outputText value="#{listaController.seleccionado.nombre}" />
+					
+					<h:outputText value="Apellidos: "  />
+					<h:outputText value="#{listaController.seleccionado.apellido}" />
+					
+					<h:outputText value="Alias: "  />
+					<h:outputText value="#{listaController.seleccionado.alias}" />
+					
+					<h:outputText value="Email: "  />
+					<h:outputText value="#{listaController.seleccionado.email}" />
+					
+					<h:outputText value="Teléfono: "  />
+					<h:outputText value="#{listaController.seleccionado.telefono}" />
+					
+					<h:outputText value="Dirección: "  />
+					<h:outputText value="#{listaController.seleccionado.direccion}" />
+					
+					<h:outputText value="Fecha de creación: "  />
+					<h:outputText value="#{listaController.formatDate(listaController.seleccionado.fechacreacion)}" />
+					
+					<h:outputText value="Fecha de modificación: " />
+					<h:outputText value="#{listaController.formatDate(listaController.seleccionado.fechamodificacion)}" />
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+</h:form>
 
 </h:body>
 </html>

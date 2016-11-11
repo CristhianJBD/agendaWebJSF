@@ -40,6 +40,7 @@ public class ContactosListadoMB implements Serializable {
 	private List<Contacto> contactos = new ArrayList<>();
     private Contacto contacto ;
     private String atributo ;
+    public Contacto seleccionado;
 
     @PostConstruct
     public void init() {
@@ -303,6 +304,20 @@ public class ContactosListadoMB implements Serializable {
 	public void setAtributo(String atributo) {
 		this.atributo = atributo;
 	}
+	
+	public void setSelec(Contacto contacto){
+		setSeleccionado(contacto);
+	}
+	
+
+	public Contacto getSeleccionado() {
+		return seleccionado;
+	}
+
+	public void setSeleccionado(Contacto contacto) {
+		this.seleccionado = contacto;
+	}
+
     
 	public String formatDate(String date) throws ParseException
 	{	if (date!=""){
