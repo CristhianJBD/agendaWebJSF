@@ -1,26 +1,19 @@
 package py.pol.una;
 
-import java.util.Date;
-
 public class Contacto {
 	
-	private Integer ID;
+	private String id;
 	private String nombre;
 	private String apellido;
 	private String alias;
 	private String email;
 	private String direccion;
 	private String telefono;
-	private Date fechaCreacion;
-	private Date fechaModificacion;
+	private String fechacreacion;
+	private String fechamodificacion;
 	
+
 	
-	public Integer getID() {
-		return ID;
-	}
-	public void setID(Integer iD) {
-		ID = iD;
-	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -51,17 +44,25 @@ public class Contacto {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	public Date getFechaCreacion() {
-		return fechaCreacion;
+
+
+	public String getId() {
+		return id;
 	}
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public Date getFechaModificacion() {
-		return fechaModificacion;
+	public String getFechacreacion() {
+		return fechacreacion;
 	}
-	public void setFechaModificacion(Date fechaModificacion) {
-		this.fechaModificacion = fechaModificacion;
+	public void setFechacreacion(String fechacreacion) {
+		this.fechacreacion = fechacreacion;
+	}
+	public String getFechamodificacion() {
+		return fechamodificacion;
+	}
+	public void setFechamodificacion(String fechamodificacion) {
+		this.fechamodificacion = fechamodificacion;
 	}
 	public String getTelefono() {
 		return telefono;
@@ -70,4 +71,12 @@ public class Contacto {
 		this.telefono = telefono;
 	}
 	
+	
+	
+	public String request() {
+		return "{\"nombre\":\"" + nombre + "\",\"apellido\":\"" + apellido
+				+ "\",\"alias\":\"" + alias + "\",\"telefono\":\"" + telefono
+				+ "\",\"email\":\"" + email + "\",\"direccion\":\"" + direccion
+				+ "\"}";
+}
 }

@@ -4,38 +4,60 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<head>
+<h:head>
 <title></title>
-</head>
+</h:head>
 
-<body>
-<p:outputLabel value="Agregar Contactos"/>  
-	<p:panelGrid columns="2">
-
-				<p:outputLabel value="Nombre"/>  
-				<p:inputText value="#{contactosFormMB.contacto.nombre}" />
-
-				<p:outputLabel value="Apellido"/>  
-				<p:inputText value="#{contactosFormMB.contacto.apellido}" />
-	
-				<p:outputLabel value="Alias"/> 
-				<p:inputText value="#{contactosFormMB.contacto.alias}" />
+<h:body>
+  
+<h:form>
+		<p:panel id="panel" header="Nuevo Contacto" style="margin-bottom:10px;">
+			<h:panelGrid cellpadding="5">
+				<h:outputLabel for="nombre" value="Nombre:" style="font-weight:bold"/>                    
+	            <p:inputText id="nombre" value="#{listaController.contacto.nombre}" required="true" label="Nombre"
+	            requiredMessage="Debe ingresar el nombre del contacto"/>
+	            <p:message for="nombre" />
+				
+				<h:outputLabel for="apellido" value="Apellido:" style="font-weight:bold"/>
+				<p:inputText id="apellido" value="#{listaController.contacto.apellido}" required="true" label="Apellido"
+				requiredMessage="Debe ingresar el apellido del contacto"/>
+				<p:message for="apellido" />
+	            
+	            <h:outputLabel for="alias" value="Alias:" style="font-weight:bold"/>
+				<p:inputText id="alias" value="#{listaController.contacto.alias}" label="Alias" />
+				
+				<h:outputLabel for="telefono" value="Teléfono:" style="font-weight:bold"/>
+				<p:inputText id="telefono" value="#{listaController.contacto.telefono}" required="true" label="Teléfono"
+				requiredMessage="Debe ingresar el numero de telefono del contacto" validatorMessage="Solo se permiten numeros" maxlength="10" converterMessage="Solo se permiten numeros">
+					<f:validateDoubleRange minimum="0" />
+				</p:inputText>
+				<p:message for="telefono" />
+				
+				<h:outputLabel for="email" value="Email:" style="font-weight:bold"/>
+				<p:inputText id="email" value="#{listaController.contacto.email}" required="true" label="Email"
+				requiredMessage="Debe ingresar el email del contacto" validatorMessage="Ingrese un formato correcto: example@gmail.com" >
+					<f:validateRegex pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" />
+				</p:inputText>
+				<p:message for="email"/>
 		
-				<p:outputLabel value="Email"/> 
-				<p:inputText value="#{contactosFormMB.contacto.email}" />
+				<h:outputLabel for="direccion" value="Dirección:" style="font-weight:bold"/>
+				<p:inputText id="direccion" value="#{listaController.contacto.direccion}" label="Dirección" />
+			</h:panelGrid>
+		</p:panel>
+		<p:commandButton action="ContactosListado" value="Guardar"
+			actionListener="#{listaController.agregarContacto()}" update="panel" icon="ui-icon-disk" validateClient="true">
+			<p:confirm header="Confirmacion" message="Estás seguro?" icon="ui-icon-alert" />
+		</p:commandButton>
+		
+		<p:commandButton action="ContactosListado" value="Cancelar" icon="ui-icon-cancel" process="@this">
+			<p:confirm header="No se agregará el contacto" message="Estás seguro?" icon="ui-icon-alert" />
+		</p:commandButton>
 			
-				<p:outputLabel value="Direccion"/> 
-				<p:inputText value="#{contactosFormMB.contacto.direccion}" />
-		
-				<p:outputLabel value="Telefono"/> 
-				<p:inputText value="#{contactosFormMB.contacto.telefono}" />
-		
-			<p>
-				<p:commandButton value="agregar" action="#{contactosFormMB.agregarContacto()}" />
-				<p:commandButton value="limpiar" action="#{contactosFormMB.limpiar()}" />
-			</p>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+	        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+	</h:form>
 
-	</p:panelGrid>
-
-</body>
+</h:body>
 </html>

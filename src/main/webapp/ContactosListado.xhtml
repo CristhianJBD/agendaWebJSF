@@ -4,51 +4,101 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<head>
+<h:head>
 <title>Simple CRUD</title>
-</head>
+</h:head>
 
-<body>
-
-<h:form>
-	<p:dataTable id="listaContactos"
-		value="#{listaController.contactos}" var="contacto" rows="10" paginator="true"
-         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-         rowsPerPageTemplate="5,10,15"
+<h:body>
+<f:event listener="#{listaController.init}" type="preRenderView" />
+<h:form id="form">
+	<p:growl id="msgs" showDetail="true"/>
 	
+	<p:dataTable id="listaContactos" editable="true" 
+		value="#{listaController.contactos}" var="contacto" rows="6" paginator="true"
+         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+         rowsPerPageTemplate="6,12,18" currentPageReportTemplate="Cantidad de Contactos: {totalRecords}" 
+        
 		emptyMessage="Todavia no tiene ningun Contacto">
+		<f:facet name="header">
+           Lista de Contactos
+       </f:facet>
+       
+       <p:ajax event="rowEdit" listener="#{listaController.editarContacto}" update=":form:msgs" />
+       <p:ajax event="rowEditCancel" listener="#{listaController.cancelar}" update=":form:msgs" />
 
 		<p:column headerText="Nombre">
-			<h:outputText value="#{contacto.nombre}" />
+			<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{contacto.nombre}" /></f:facet>
+               <f:facet name="input"><p:inputText id="modelInput" value="#{contacto.nombre}" 
+               required="true" requiredMessage="Debe ingresar el nombre del contacto"/></f:facet>
+           </p:cellEditor>
 		</p:column>
+		
 		<p:column headerText="Apellido">
-			<h:outputText value="#{contacto.apellido}" />
+			<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{contacto.apellido}" /></f:facet>
+               <f:facet name="input"><p:inputText value="#{contacto.apellido}" 
+               required="true" requiredMessage="Debe ingresar el apellido del contacto"/></f:facet>
+           </p:cellEditor>
 		</p:column>
 		<p:column headerText="Alias">
-			<h:outputText value="#{contacto.alias}" />
+			<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{contacto.alias}" /></f:facet>
+               <f:facet name="input"><p:inputText value="#{contacto.alias}" /></f:facet>
+           </p:cellEditor>
 		</p:column>
 		<p:column headerText="Email">
-			<h:outputText value="#{contacto.email}" />
+			<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{contacto.email}" /></f:facet>
+               <f:facet name="input"><p:inputText value="#{contacto.email}" required="true"
+				requiredMessage="Debe ingresar el email del contacto" 
+				validatorMessage="Ingrese un formato correcto: example@gmail.com">
+				<f:validateRegex pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" /></p:inputText></f:facet>
+           </p:cellEditor>
 		</p:column>
 		<p:column headerText="Direccion">
-			<h:outputText value="#{contacto.direccion}" />
+			<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{contacto.direccion}" /></f:facet>
+               <f:facet name="input"><p:inputText value="#{contacto.direccion}" /></f:facet>
+           </p:cellEditor>
 		</p:column>
 		<p:column headerText="Telefono">
-			<h:outputText value="#{contacto.telefono}" />
+			<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{contacto.telefono}" /></f:facet>
+               <f:facet name="input"><p:inputText value="#{contacto.telefono}" required="true" label="Teléfono"
+				requiredMessage="El campo no puede ser nulo" validatorMessage="Solo se permiten numeros" converterMessage="Solo se permiten numeros" maxlength="10">
+					<f:validateDoubleRange minimum="0" />
+			</p:inputText></f:facet>
+           </p:cellEditor>
 		</p:column>
-		<p:column headerText="Acciones">
-			<h:commandButton value="editar" action="#{listaController.editarContacto(contacto)}" />
-			<h:commandButton value="delete" action="#{listaController.eliminarContacto(contacto)}" />
-			<h:commandButton value="ver" action="#{listaController.verContacto(contacto)}" />
+		<p:column headerText="Fecha de Creación">
+			<h:outputText value="#{listaController.formatDate(contacto.fechacreacion)}" />
+		</p:column>
+
+		<p:column headerText="Fecha de Modificación">
+			<h:outputText
+				value="#{listaController.formatDate(contacto.fechamodificacion)}" />
 		</p:column>
 		
 
-
-
+		<p:column headerText="Acciones">
+			<p:commandButton icon="ui-icon-trash" action="#{listaController.eliminarContacto(contacto)}" />
+           <p:rowEditor />
+    
+       </p:column>
 
 	</p:dataTable>
+	
+	<p:separator
+		style="background-color:white;border-color:white;height:15px" />
+
+	<h:form>
+		<p:commandButton action="ContactosFormulario"
+			actionListener="#{listaController.initForm()}"
+			value="Agregar Contacto" />
+</h:form>
 	</h:form>
-</body>
+</h:body>
 </html>
 
 
