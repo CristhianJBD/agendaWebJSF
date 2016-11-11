@@ -137,6 +137,7 @@ public class ContactosListadoMB implements Serializable {
              conn.disconnect();
              FacesMessage msg = new FacesMessage("Se edito correctamente el contacto con ID:", (c.getId()));
              FacesContext.getCurrentInstance().addMessage(null, msg);
+             setContactos(listaContactos());
 
          } catch (MalformedURLException e) {
              e.printStackTrace();
