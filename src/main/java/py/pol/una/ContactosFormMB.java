@@ -3,18 +3,25 @@ package py.pol.una;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+
 import org.omg.CORBA.portable.OutputStream;
 
 @ManagedBean(name = "FormController", eager = true)
 @RequestScoped
-public class ContactosFormMB {
+public class ContactosFormMB implements Serializable {
 
-    private Contacto contacto = new Contacto();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Contacto contacto = new Contacto();
 
     public void agregarContacto() {
 

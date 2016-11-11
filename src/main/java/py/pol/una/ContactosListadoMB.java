@@ -3,6 +3,7 @@ package py.pol.una;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
@@ -29,16 +30,22 @@ import com.google.gson.reflect.TypeToken;
 
 @ManagedBean(name = "listaController", eager = true)
 @SessionScoped
-public class ContactosListadoMB {
+public class ContactosListadoMB implements Serializable {
 
-    private List<Contacto> contactos = new ArrayList<>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private List<Contacto> contactos = new ArrayList<>();
     private Contacto contacto ;
-
+    private String atributo ;
 
     @PostConstruct
     public void init() {
 
         this.contactos = new ArrayList<Contacto>();
+        setAtributo("");
         setContactos(listaContactos());
     }
     
@@ -47,8 +54,6 @@ public class ContactosListadoMB {
 
         this.contacto = new Contacto();
     }
-    
-    
     
     public void agregarContacto() {
 
@@ -81,8 +86,11 @@ public class ContactosListadoMB {
             }
 
             conn.disconnect();
+            FacesMessage msg = new FacesMessage("Se agrego correctamente el contacto:", (contacto.getNombre()));
+            FacesContext.getCurrentInstance().addMessage(null, msg);
             this.contacto = null;
-
+            setAtributo("");
+            setContactos(listaContactos());
         } catch (MalformedURLException e) {
 
             e.printStackTrace();
@@ -95,10 +103,7 @@ public class ContactosListadoMB {
 
     }
 
-    public void limpiar() {
-
-    }
-
+  
     public void editarContacto(RowEditEvent event) {
     	
     	Contacto c = (Contacto) event.getObject();
@@ -109,8 +114,6 @@ public class ContactosListadoMB {
              conn.setDoOutput(true);
              conn.setRequestMethod("PUT");
              conn.setRequestProperty("Content-Type", "application/json");
-             
-   //          c.setFechamodificacion(new Timestamp(System.currentTimeMillis()).toString());
              
              String input = c.request() ;
 
@@ -131,32 +134,50 @@ public class ContactosListadoMB {
              while ((output = br.readLine()) != null) {
                  System.out.println(output);
              }
-
              conn.disconnect();
              FacesMessage msg = new FacesMessage("Se edito correctamente el contacto con ID:", (c.getId()));
              FacesContext.getCurrentInstance().addMessage(null, msg);
 
          } catch (MalformedURLException e) {
-
              e.printStackTrace();
-
          } catch (IOException e) {
-
              e.printStackTrace();
-
          }
     }
 
 
     public void cancelar(RowEditEvent event) {
     	Contacto c = (Contacto) event.getObject();
-    	 FacesMessage msg = new FacesMessage("Se cancelo la edicion del contacto:", (c.getId()));
+    	 FacesMessage msg = new FacesMessage("Se cancelo la edicion del contacto ", (c.getNombre()));
          FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     
-    public void eliminarContacto() {
-
+    public void eliminarContacto(String id) {
+    	URL url = null;
+		try {
+			url = new URL("https://desa03.konecta.com.py/pwf/rest/agenda/"+id);
+		} catch (MalformedURLException exception) {
+		    exception.printStackTrace();
+		}
+		HttpURLConnection httpURLConnection = null;
+		try {
+		    httpURLConnection = (HttpURLConnection) url.openConnection();
+		    httpURLConnection.setRequestProperty("Content-Type",
+		                "application/json");
+		    httpURLConnection.setRequestMethod("DELETE");
+		    if (httpURLConnection.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ httpURLConnection.getResponseCode());
+			}
+		    setContactos(listaContactos());
+		} catch (IOException exception) {
+		    exception.printStackTrace();
+		} finally {         
+		    if (httpURLConnection != null) {
+		        httpURLConnection.disconnect();
+		    }
+} 
     }
 
 //    public Contacto verContacto() {
@@ -198,13 +219,24 @@ public class ContactosListadoMB {
 //          return lisCont;
 //    }
 
+    public void limpiar() {
+        setAtributo("");
+        setContactos(listaContactos());
+    }
+
+    public void buscar(){
+    	System.out.println(getAtributo());
+    	setContactos(listaContactos());
+    	System.out.println(getContactos());
+    }
+    
     public List<Contacto> listaContactos() {
     	int inicio,fin;
     	List<Contacto> lisCont = null;
     	String lista;
         try {
 
-            URL url = new URL("https://desa03.konecta.com.py/pwf/rest/agenda");
+            URL url = new URL("https://desa03.konecta.com.py/pwf/rest/agenda"+"?filtro="+getAtributo());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -227,17 +259,11 @@ public class ContactosListadoMB {
                 }.getType());
 
             }
-
             conn.disconnect();
-
         } catch (MalformedURLException e) {
-
             e.printStackTrace();
-
         } catch (IOException e) {
-
             e.printStackTrace();
-
         }
         return lisCont;
     }
@@ -262,6 +288,15 @@ public class ContactosListadoMB {
 
         this.contacto = contacto;
     }
+    
+    public String getAtributo() {
+		return atributo;
+	}
+
+
+	public void setAtributo(String atributo) {
+		this.atributo = atributo;
+	}
     
 	public String formatDate(String date) throws ParseException
 	{	if (date!=""){

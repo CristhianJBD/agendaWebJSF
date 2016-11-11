@@ -9,7 +9,30 @@
 </h:head>
 
 <h:body>
-<f:event listener="#{listaController.init}" type="preRenderView" />
+
+<h:outputStylesheet>	
+	.container {
+  		display: flex;
+  		justify-content: center;
+  		margin-top: 20px;
+  		margin-bottom: 20px;
+	}
+
+	.center {
+		width: 40%;
+	}
+	
+	.panelFull {
+		margin/top:100px;
+	}
+	
+	.sinborde{ 
+	background-color: none;
+    border: none;
+	}
+		
+	</h:outputStylesheet>
+
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true"/>
 	
@@ -25,7 +48,10 @@
        
        <p:ajax event="rowEdit" listener="#{listaController.editarContacto}" update=":form:msgs" />
        <p:ajax event="rowEditCancel" listener="#{listaController.cancelar}" update=":form:msgs" />
-
+		
+		<p:column headerText="ID" style="width:20px">
+			<h:outputText value="#{contacto.id}" />
+		</p:column>
 		<p:column headerText="Nombre">
 			<p:cellEditor>
                <f:facet name="output"><h:outputText value="#{contacto.nombre}" /></f:facet>
@@ -81,23 +107,40 @@
 		</p:column>
 		
 
-		<p:column headerText="Acciones">
-			<p:commandButton icon="ui-icon-trash" action="#{listaController.eliminarContacto(contacto)}" />
+		<p:column headerText="Acciones" style="width:80px">
+		<p:commandButton id="buttonDelete" type="button" icon="ui-icon-trash" 
+				actionListener="#{listaController.eliminarContacto(contacto.id)}"
+			process="@this" update="listaContactos" >
+			<p:confirm header="El contacto sera eliminado" message="Estás seguro?" icon="ui-icon-alert"/>
+		</p:commandButton>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+	        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+	    
            <p:rowEditor />
     
        </p:column>
 
 	</p:dataTable>
+		
+	<p:separator style="background-color:white;border-color:white;height:15px" />
 	
-	<p:separator
-		style="background-color:white;border-color:white;height:15px" />
+	</h:form>
+	
 
 	<h:form>
-		<p:commandButton action="ContactosFormulario"
-			actionListener="#{listaController.initForm()}"
-			value="Agregar Contacto" />
-</h:form>
+	
+		<h:commandButton actionListener="#{listaController.buscar()}" value="Buscar" process="@this" update=":listaContactos"/>
+		<h:commandButton actionListener="#{listaController.limpiar()}" value="Limpiar" process="@this" update=":listaContactos"/>
+		<h:inputText id="atributo" value="#{listaController.atributo}" label="atributo" />
+		
+		<p:separator style="background-color:white;border-color:white;width:15px" />
+
+		<p:commandButton action="ContactosFormulario" actionListener="#{listaController.initForm()}" value="Agregar Contacto" />
+
 	</h:form>
+
 </h:body>
 </html>
 
