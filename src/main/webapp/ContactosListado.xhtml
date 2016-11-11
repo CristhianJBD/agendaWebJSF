@@ -10,28 +10,6 @@
 
 <h:body>
 
-<h:outputStylesheet>	
-	.container {
-  		display: flex;
-  		justify-content: center;
-  		margin-top: 20px;
-  		margin-bottom: 20px;
-	}
-
-	.center {
-		width: 40%;
-	}
-	
-	.panelFull {
-		margin/top:100px;
-	}
-	
-	.sinborde{ 
-	background-color: none;
-    border: none;
-	}
-		
-	</h:outputStylesheet>
 
 <h:form id="form">
 	<p:growl id="msgs" showDetail="true"/>
@@ -108,7 +86,7 @@
 		
 
 		<p:column headerText="Acciones" style="width:80px">
-		<p:commandButton id="buttonDelete" type="button" icon="ui-icon-trash" 
+		<p:commandButton id="buttonDelete" icon="ui-icon-trash" 
 				actionListener="#{listaController.eliminarContacto(contacto.id)}"
 			process="@this" update="listaContactos" >
 			<p:confirm header="El contacto sera eliminado" message="Estás seguro?" icon="ui-icon-alert"/>

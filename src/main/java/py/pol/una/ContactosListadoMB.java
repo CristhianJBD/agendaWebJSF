@@ -170,7 +170,12 @@ public class ContactosListadoMB implements Serializable {
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ httpURLConnection.getResponseCode());
 			}
+		   httpURLConnection.disconnect();
+		    FacesMessage msg = new FacesMessage("Se elimino el contacto con ID: ", (id));
+	         FacesContext.getCurrentInstance().addMessage(null, msg);
 		    setContactos(listaContactos());
+		    
+		    
 		} catch (IOException exception) {
 		    exception.printStackTrace();
 		} finally {         
