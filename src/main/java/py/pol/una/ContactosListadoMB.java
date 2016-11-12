@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -186,45 +185,6 @@ public class ContactosListadoMB implements Serializable {
 		    }
 } 
     }
-
-//    public Contacto verContacto() {
-//    	Contacto c;
-//    	  try {
-//
-//              URL url = new URL("https://desa03.konecta.com.py/pwf/rest/agenda/"+);
-//              HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//              conn.setRequestMethod("GET");
-//              conn.setRequestProperty("Accept", "application/json");
-//
-//              if (conn.getResponseCode() != 200) {
-//                  throw new RuntimeException("Failed : HTTP error code : "
-//                          + conn.getResponseCode());
-//              }
-//
-//              BufferedReader br = new BufferedReader(new InputStreamReader(
-//                      (conn.getInputStream())));
-//
-//              String output;
-//              while ((output = br.readLine()) != null) {
-//                  Gson gson = new GsonBuilder().create();
-//                  c = gson.fromJson(lista,new TypeToken<Contacto>(){
-//                  }.getType());
-//
-//              }
-//
-//              conn.disconnect();
-//
-//          } catch (MalformedURLException e) {
-//
-//              e.printStackTrace();
-//
-//          } catch (IOException e) {
-//
-//              e.printStackTrace();
-//
-//          }
-//          return lisCont;
-//    }
 
     public void limpiar() {
         setAtributo("");
